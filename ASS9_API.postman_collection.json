@@ -1,0 +1,548 @@
+{
+	"info": {
+		"_postman_id": "ac91ca30-5931-4548-9750-ceb4abffe10a",
+		"name": "ASS9_API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "36190921"
+	},
+	"item": [
+		{
+			"name": "Board",
+			"item": [
+				{
+					"name": "Create",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"let randNumber = Math.floor((Math.random() * 100 ) +1);\r",
+									"pm.environment.set(\"Ass_BoardName\",\"Board\"+ randNumber);\r",
+									"\r",
+									"pm.environment.set(\"Ass_BoardDesc\",\"This is a description for\" + pm.environment.get(\"Ass_BoardName\"));"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var response = pm.response.json();\r",
+									"\r",
+									"pm.environment.set(\"Ass_BoardID\", response.id);\r",
+									"\r",
+									"pm.test(\"Verify that Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Verify that Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									"pm.test(\"Verify that Your test name\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.name).to.eql(pm.environment.get(\"Ass_BoardName\"));\r",
+									"});\r",
+									"pm.test(\"Verify that Your test desc\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.desc).to.eql(pm.environment.get(\"Ass_BoardDesc\"));\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "https://api.trello.com/1/boards/?name={{Ass_BoardName}}&key={{Key}}&token={{Token}}&desc={{Ass_BoardDesc}}",
+							"protocol": "https",
+							"host": [
+								"api",
+								"trello",
+								"com"
+							],
+							"path": [
+								"1",
+								"boards",
+								""
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "{{Ass_BoardName}}"
+								},
+								{
+									"key": "key",
+									"value": "{{Key}}"
+								},
+								{
+									"key": "token",
+									"value": "{{Token}}"
+								},
+								{
+									"key": "desc",
+									"value": "{{Ass_BoardDesc}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Verify that Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Verify that Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "https://api.trello.com/1/boards/{{Ass_BoardID}}?key={{Key}}&token={{Token}}",
+							"protocol": "https",
+							"host": [
+								"api",
+								"trello",
+								"com"
+							],
+							"path": [
+								"1",
+								"boards",
+								"{{Ass_BoardID}}"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "{{Key}}"
+								},
+								{
+									"key": "token",
+									"value": "{{Token}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "List",
+			"item": [
+				{
+					"name": "Create",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"let randNumber = Math.floor((Math.random() * 100 ) +1);\r",
+									"pm.environment.set(\"Ass_ListName\",\"List\"+ randNumber);\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var response = pm.response.json();\r",
+									"pm.environment.set(\"Ass_ListID\",response.id);\r",
+									"\r",
+									"pm.test(\"Verify that Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Verify that Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									"pm.test(\"Verify that Your test name\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.name).to.eql(pm.environment.get(\"Ass_ListName\"));\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "https://api.trello.com/1/lists?name={{Ass_ListName}}&idBoard={{Ass_BoardID}}&key={{Key}}&token={{Token}}",
+							"protocol": "https",
+							"host": [
+								"api",
+								"trello",
+								"com"
+							],
+							"path": [
+								"1",
+								"lists"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "{{Ass_ListName}}"
+								},
+								{
+									"key": "idBoard",
+									"value": "{{Ass_BoardID}}"
+								},
+								{
+									"key": "key",
+									"value": "{{Key}}"
+								},
+								{
+									"key": "token",
+									"value": "{{Token}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Card",
+			"item": [
+				{
+					"name": "Create",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var Response = pm.response.json();\r",
+									"pm.environment.set(\"Ass_CasdID\", Response.id);\r",
+									"\r",
+									"pm.test(\"Verify that Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Verify that Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									"pm.test(\"Verify that Your test name\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.name).to.eql(pm.environment.get(\"Ass_CasdName\"));\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"let randNumber = Math.floor((Math.random() * 100 ) +1);\r",
+									"pm.environment.set(\"Ass_CardName\", \"Card\"+randNumber);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "https://api.trello.com/1/cards?idList={{Ass_ListID}}&key={{Key}}&token={{Token}}&name={{Ass_CasdName}}",
+							"protocol": "https",
+							"host": [
+								"api",
+								"trello",
+								"com"
+							],
+							"path": [
+								"1",
+								"cards"
+							],
+							"query": [
+								{
+									"key": "idList",
+									"value": "{{Ass_ListID}}"
+								},
+								{
+									"key": "key",
+									"value": "{{Key}}"
+								},
+								{
+									"key": "token",
+									"value": "{{Token}}"
+								},
+								{
+									"key": "name",
+									"value": "{{Ass_CasdName}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "CheckList",
+			"item": [
+				{
+					"name": "Create",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"let randNumber = Math.floor((Math.random() * 100 ) +1);\r",
+									"pm.environment.set(\"Ass_CheckListName\", \"CheckList\"+randNumber);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var Response = pm.response.json();\r",
+									"pm.environment.set(\"Ass_CheckListID\", Response.id);\r",
+									"\r",
+									"pm.test(\"Verify that Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Verify that Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									"pm.test(\"Verify that Your test name\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.name).to.eql(pm.environment.get(\"Ass_CheckListName\"));\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "https://api.trello.com/1/checklists?idCard={{Ass_CasdID}}&key={{Key}}&token={{Token}}&name={{Ass_CheckListName}}",
+							"protocol": "https",
+							"host": [
+								"api",
+								"trello",
+								"com"
+							],
+							"path": [
+								"1",
+								"checklists"
+							],
+							"query": [
+								{
+									"key": "idCard",
+									"value": "{{Ass_CasdID}}"
+								},
+								{
+									"key": "key",
+									"value": "{{Key}}"
+								},
+								{
+									"key": "token",
+									"value": "{{Token}}"
+								},
+								{
+									"key": "name",
+									"value": "{{Ass_CheckListName}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "CheckListItem",
+			"item": [
+				{
+					"name": "Create",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"let randNumber = Math.floor((Math.random() * 100 ) +1);\r",
+									"pm.environment.set(\"Ass_CheckListItemName\", \"CheckListItem\"+randNumber);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var Response = pm.response.json();\r",
+									"pm.environment.set(\"Ass_ChecjListID\", Response.id);\r",
+									"\r",
+									"pm.test(\"Verify that Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Verify that Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									"pm.test(\"Verify that Your test name\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.name).to.eql(pm.environment.get(\"Ass_CheckListName\"));\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "https://api.trello.com/1/checklists/{{Ass_CheckListID}}/checkItems?name={{Ass_CheckListName}}&key={{Key}}&token={{Token}}",
+							"protocol": "https",
+							"host": [
+								"api",
+								"trello",
+								"com"
+							],
+							"path": [
+								"1",
+								"checklists",
+								"{{Ass_CheckListID}}",
+								"checkItems"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "{{Ass_CheckListName}}"
+								},
+								{
+									"key": "key",
+									"value": "{{Key}}"
+								},
+								{
+									"key": "token",
+									"value": "{{Token}}"
+								},
+								{
+									"key": "",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.environment.set(\"Ass_CheckListItem\", \"NewCheckListItem_Name\");"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var Response = pm.response.json();\r",
+									"pm.environment.set(\"Ass_CasdID\", Response.id);\r",
+									"\r",
+									"pm.test(\"Verify that Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Verify that Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									"pm.test(\"Verify that Your test name\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.name).to.eql(pm.environment.get(\"Ass_CheckListItem\"));\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "https://api.trello.com/1/checklists/{{Ass_CheckListID}}?key={{Key}}&token={{Token}}&name={{Ass_CheckListItem}}",
+							"protocol": "https",
+							"host": [
+								"api",
+								"trello",
+								"com"
+							],
+							"path": [
+								"1",
+								"checklists",
+								"{{Ass_CheckListID}}"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "{{Key}}"
+								},
+								{
+									"key": "token",
+									"value": "{{Token}}"
+								},
+								{
+									"key": "name",
+									"value": "{{Ass_CheckListItem}}"
+								},
+								{
+									"key": "",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
